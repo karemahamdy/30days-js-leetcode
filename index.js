@@ -136,3 +136,25 @@ var once = function(fn) {
  }
 };
 
+
+// 2626. Array Reduce Transformation
+var reduce = function(nums, fn, init) {
+  return nums.reduce(fn,init)
+};
+
+// 2724. Sort By
+var sortBy = function(arr, fn) {
+  return  arr.sort(function(a, b){return fn(a)-fn(b)})
+ };
+
+ //2727. Is Object Empty
+//  Given an object or an array, return if it is empty.
+// An empty object contains no key-value pairs.
+// // An empty array contains no elements.
+// You may assume the object or array is the output of JSON.parse
+
+var isEmpty = function(obj) {
+  return (Object.keys(obj).length == 0 ? true  : false)
+};
+
+// obj = {"x": 5, "y": 42}
