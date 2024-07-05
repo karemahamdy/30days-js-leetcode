@@ -298,3 +298,39 @@ emit(eventName, args = []) {
   return results;
 }
 }
+
+// 2725. Interval Cancellation
+
+// Given a function fn, an array of arguments args, and an interval time t, return a cancel function cancelFn.
+// After a delay of cancelTimeMs, the returned cancel function cancelFn will be invoked.
+// setTimeout(cancelFn, cancelTimeMs)
+// The function fn should be called with args immediately and then called again every t milliseconds until cancelFn is called at cancelTimeMs ms.
+
+var cancellable = function(fn, args, t) {
+  fn(...args);
+  const timer = setInterval(() => fn(...args), t);
+
+  const cancelFn = () => clearInterval(timer);
+  return cancelFn;
+};
+
+
+//2715. Timeout Cancellation
+// Given a function fn, an array of arguments args, and a timeout t in milliseconds, return a cancel function cancelFn.
+// After a delay of cancelTimeMs, the returned cancel function cancelFn will be invoked.
+// setTimeout(cancelFn, cancelTimeMs)
+// Initially, the execution of the function fn should be delayed by t milliseconds.
+// If, before the delay of t milliseconds, the function cancelFn is invoked, it should cancel the delayed execution of fn. Otherwise, if cancelFn is not invoked within the specified delay t, fn should be executed with the provided args as arguments.
+ 
+
+var cancellable = function(fn, args, t) {
+  const timeoutId = setTimeout(function() {
+    fn.apply(null, args);
+  }, t);
+
+  const cancelFn = function() {
+    clearTimeout(timeoutId);
+  };
+
+  return cancelFn;
+};
