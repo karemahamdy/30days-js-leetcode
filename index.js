@@ -498,3 +498,16 @@ var compactObject = function(obj) {
   }
   return compactedObj;
 };
+
+// 2623. Memoize
+function memoize(fn) {
+  var dit = {};
+ return function(...args) {
+     if( args in dit ) {
+         return dit[args];
+     } else {
+         dit[args] = fn(...args);
+         return dit[args];
+     }
+ }
+}
