@@ -425,3 +425,56 @@ for(const obj of items) {
 
  return Object.values(result);    
 };
+
+
+// 2721. Execute Asynchronous Functions in Parallel
+
+var promiseAll = function(functions) {
+  return new Promise((resolve,reject) => {
+      if(functions.length === 0) {
+          resolve([]);
+          return;
+      }
+      const res = new Array(functions.length).fill(null);
+
+      let resolvedCount = 0;
+
+      functions.forEach(async (el,idx) => {
+          try {
+              const subResult = await el();
+              res[idx] = subResult;
+              resolvedCount++;
+              if(resolvedCount=== functions.length) {
+                  resolve(res);
+              }
+          } catch(err) {
+              reject(err);
+          }
+      });
+  }); 
+};
+// this solution beats 5% 
+
+/**
+ * @param {Array<Function>} functions
+ * @return {Promise<any>}
+ */
+var promiseAll = async function(functions) {
+  return new Promise((resolve, reject) => {
+      // We know the resulting array will be the same length as functions
+      const results = new Array(functions.length);
+      let count = 0;
+      functions.forEach((fn, i) => {
+          fn()
+          .then(val => {
+              results[i] = val;
+              count++;
+              if(count === functions.length) resolve(results);
+          })
+          .catch(reason => reject(reason));
+      });
+  });
+};
+
+// this beats 99%
+
